@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Restaurante El Profe</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,700;1,400&display=swap');
+
+    :root {
+      --orange-base: #fe9914;
+      --blue-base: #0762ac;
+      --blue-light: #097fdf;
+      --white-base: #fff3eb;
+      --black-base: #333333;
+      --font-family: 'Rubik', sans-serif;
+    }
+
+    * { margin:0; padding:0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family);
+      background: var(--white-base);
+      color: var(--black-base);
+      margin: 0;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    #side-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+      animation: slideInLeft 1s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    #content-wrapper {
+      margin-left: 200px;
+      padding: 2rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 1000px;
+      box-sizing: border-box;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 2px solid var(--orange-base);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      gap: 1rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .logo-title img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      user-select: none;
+    }
+
+    .logo-title h1 {
+      color: var(--orange-base);
+      font-weight: 700;
+      font-size: 2.8rem;
+      user-select: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-end;
+    }
+
+    nav button {
+      background-color: var(--blue-base);
+      color: var(--white-base);
+      border: none;
+      padding: 0.6rem 1.3rem;
+      font-size: 1.1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    nav button:hover,
+    nav button.active {
+      background-color: var(--blue-light);
+      transform: scale(1.05);
+    }
+
+    main {
+      flex-grow: 1;
+      min-height: 60vh;
+      z-index: 2;
+      position: relative;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+
+    main.fade-out {
+      opacity: 0;
+    }
+
+    .producto-unico,
+    .producto-card {
+      border: 1.5px solid var(--orange-base);
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      background: var(--white-base);
+      box-shadow: 0 3px 6px rgb(0 0 0 / 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .producto-unico {
+      max-width: 700px;
+      margin: 0 auto 1rem auto;
+    }
+
+    .producto-unico:hover,
+    .producto-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 12px rgb(0 0 0 / 0.15);
+    }
+
+    .producto-unico img,
+    .producto-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .producto-info {
+      flex: 1;
+    }
+
+    .producto-info h3 {
+      color: var(--orange-base);
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .producto-info p {
+      font-size: 1rem;
+      color: #333333;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    #btn-saber-mas {
+      display: block;
+      margin: 0 auto 3rem auto;
+      background-color: var(--blue-base);
+      color: var(--white-base);
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1.2rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    #btn-saber-mas:hover {
+      background-color: var(--blue-light);
+      transform: scale(1.05);
+    }
+
+    .productos-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    section {
+      max-width: 700px;
+      text-align: justify;
+      line-height: 1.5;
+      margin-bottom: 3rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    section h2 {
+      color: var(--blue-base);
+      font-weight: 700;
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      border-left: 6px solid var(--orange-base);
+      padding-left: 0.8rem;
+    }
+
+    ul.novedades-list {
+      list-style: disc;
+      padding-left: 1.5rem;
+    }
+
+    ul.novedades-list li {
+      margin-bottom: 0.8rem;
+      font-size: 1rem;
+      color: var(--black-base);
+    }
+
+    footer {
+      background-color: #0762ac;
+      color: #fff2e5;
+      padding: 1rem 0;
+      margin-top: auto;
+      text-align: center;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 600px) {
+      #side-image {
+        display: none;
+      }
+
+      #content-wrapper {
+        margin-left: 0;
+        padding: 1rem;
+        max-width: 100%;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      nav {
+        align-items: center;
+        justify-content: center;
+      }
+
+      .producto-unico,
+      .producto-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .producto-info {
+        flex: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Imagen fija a la izquierda -->
+  <img id="side-image" src="https://user.uploads.dev/file/a5733707aab7e3cc80e729a5bcedd360.png" alt="Imagen lateral decorativa" />
+
+  <div id="content-wrapper">
+
+    <header>
+      <div class="logo-title" role="button" tabindex="0" aria-label="Volver al inicio">
+        <img src="https://user.uploads.dev/file/906e6aee81edb12314710fd1c9ed4b66.png" alt="Logo Restaurante El Profe" />
+        <h1>Restaurante El Profe</h1>
+      </div>
+
+      <nav aria-label="Navegación principal">
+        <button id="btn-productos" class="active">Menú</button>
+        <button id="btn-conocenos">Conócenos</button>
+        <button id="btn-novedades">Especiales</button>
+      </nav>
+    </header>
+
+    <main id="contenido" tabindex="-1">
+
+      <article class="producto-unico" tabindex="0">
+        <img src="https://user.uploads.dev/file/906e6aee81edb12314710fd1c9ed4b66.png" alt="Plato especial de la casa" />
+        <div class="producto-info">
+          <h3>Bandeja Especial El Profe</h3>
+          <p>
+            Deliciosa combinación de carnes, arroz, frijoles, aguacate y acompañamientos tradicionales preparados con sabor casero.
+          </p>
+        </div>
+      </article>
+
+      <button id="btn-saber-mas" type="button">
+        Ver menú completo
+      </button>
+
+    </main>
+
+    <footer>
+      <p><strong>Restaurante El Profe</strong></p>
+      <p>Teléfono: (601) 555-2026</p>
+      <p>Dirección: Carrera 10 #45-22, Bogotá</p>
+    </footer>
+
+  </div>
+
+  <script>
+    const btnProductos = document.getElementById('btn-productos');
+    const btnConocenos = document.getElementById('btn-conocenos');
+    const btnNovedades = document.getElementById('btn-novedades');
+    const contenido = document.getElementById('contenido');
+    const logoTitle = document.querySelector('.logo-title');
+
+    const mainProductoUnico = `
+      <article class="producto-unico" tabindex="0">
+        <img src="https://user.uploads.dev/file/906e6aee81edb12314710fd1c9ed4b66.png" alt="Plato especial de la casa" />
+        <div class="producto-info">
+          <h3>Bandeja Especial El Profe</h3>
+          <p>
+            Deliciosa combinación de carnes, arroz, frijoles, aguacate y acompañamientos tradicionales preparados con sabor casero.
+          </p>
+        </div>
+      </article>
+
+      <button id="btn-saber-mas" type="button">
+        Ver menú completo
+      </button>
+    `;
+
+    const catalogoHTML = `
+      <section aria-labelledby="titulo-productos" tabindex="0">
+        <h2 id="titulo-productos">Nuestro Menú</h2>
+
+        <div class="productos-list">
+
+          <article class="producto-card">
+            <img src="https://user.uploads.dev/file/906e6aee81edb12314710fd1c9ed4b66.png" alt="Bandeja paisa" />
+            <div class="producto-info">
+              <h3>Bandeja Paisa</h3>
+              <p>
+                Plato típico colombiano con arroz, frijoles, carne molida, chicharrón, huevo y aguacate.
+              </p>
+            </div>
+          </article>
+
+          <article class="producto-card">
+            <img src="https://user.uploads.dev/file/906e6aee81edb12314710fd1c9ed4b66.png" alt="Sancocho tradicional" />
+            <div class="producto-info">
+              <h3>Sancocho Tradicional</h3>
+              <p>
+                Sopa tradicional preparada lentamente con pollo, papa, yuca y mazorca.
+              </p>
+            </div>
+          </article>
+
+          <article class="producto-card">
+            <img src="https://user.uploads.dev/file/906e6aee81edb12314710fd1c9ed4b66.png" alt="Carne asada" />
+            <div class="producto-info">
+              <h3>Carne Asada</h3>
+              <p>
+                Jugosa carne a la parrilla acompañada de papas, ensalada fresca y arepa.
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </section>
+    `;
+
+    const conocenosHTML = `
+      <section aria-labelledby="titulo-conocenos" tabindex="0">
+        <h2 id="titulo-conocenos">Conócenos</h2>
+
+        <p>
+          En Restaurante El Profe ofrecemos comida típica colombiana con recetas tradicionales y un ambiente familiar.
+          Nuestro objetivo es brindar platos llenos de sabor, preparados con ingredientes frescos y atención cercana.
+        </p>
+      </section>
+    `;
+
+    const novedadesHTML = `
+      <section aria-labelledby="titulo-novedades" tabindex="0">
+        <h2 id="titulo-novedades">Especiales de la Semana</h2>
+
+        <ul class="novedades-list">
+          <li>Martes de bandeja paisa con bebida incluida.</li>
+          <li>Nuevo menú ejecutivo disponible de lunes a viernes.</li>
+          <li>Postre casero gratis en consumos superiores a $50.000.</li>
+        </ul>
+      </section>
+    `;
+
+    function cambiarContenido(html, btnSeleccionado) {
+
+      contenido.classList.add('fade-out');
+
+      setTimeout(() => {
+
+        contenido.innerHTML = html;
+        contenido.classList.remove('fade-out');
+        contenido.focus();
+
+        const nuevoBtnSaberMas = document.getElementById('btn-saber-mas');
+
+        if (nuevoBtnSaberMas) {
+          nuevoBtnSaberMas.addEventListener('click', () => {
+            cambiarContenido(catalogoHTML, btnProductos);
+          });
+        }
+
+        [btnProductos, btnConocenos, btnNovedades].forEach(btn => {
+          btn.classList.remove('active');
+        });
+
+        btnSeleccionado.classList.add('active');
+
+      }, 300);
+    }
+
+    btnProductos.addEventListener('click', () => {
+      cambiarContenido(catalogoHTML, btnProductos);
+    });
+
+    btnConocenos.addEventListener('click', () => {
+      cambiarContenido(conocenosHTML, btnConocenos);
+    });
+
+    btnNovedades.addEventListener('click', () => {
+      cambiarContenido(novedadesHTML, btnNovedades);
+    });
+
+    logoTitle.addEventListener('click', () => {
+      cambiarContenido(mainProductoUnico, btnProductos);
+    });
+
+    const btnSaberMas = document.getElementById('btn-saber-mas');
+
+    if (btnSaberMas) {
+      btnSaberMas.addEventListener('click', () => {
+        cambiarContenido(catalogoHTML, btnProductos);
+      });
+    }
+  </script>
+
+</body>
+</html>
